@@ -1,1 +1,1 @@
-# check_socials
+# Tab Manager: Solving the Problem of Too Many Tabs

@@ -4,7 +4,7 @@
   "description": "Organizes your Chrome tabs" ,
   "version": "1.0",
   "action": {
-    "default_popup": "startpage.html"
+    "default_popup": "intial_page/startpage.html"
   },
   "host_permissions": [
     "https://developer.chrome.com/*"

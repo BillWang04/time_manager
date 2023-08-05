@@ -2,12 +2,17 @@
 <html lang = en>
     <head>
         <link rel="stylesheet" href="styles.css" />
-        
-        <title>monkey_tabs</title>
-    </head>
 
+        <title>monkey_tabs</title>
+        <style>
+            html{
+                width: 250px;
+                height : 140px
+            }
+        </style>
+    </head>
     <body>
-        <div class = "Title">
+        <div id = "Title">
             <h2>Monkey Tabs</h2>
         </div>
         <div class="popup-container">
@@ -24,11 +29,15 @@
             <button id="createButton">Create Group</button>
             <button id="addButton">Add to Group</button>
         </div>
-        <div>
+        <div class = "bottom">
             <p>
+                <a href = tab_list.html>View Groups</a>
+                <br> 
                 <a href="javascript:window.open('','_self').close();" class="video-close">Close this window</a>
             </p>
         </div>
+
+
         <script src="popup.js"></script>
     </body>
 </html>

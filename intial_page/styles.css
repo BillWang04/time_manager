@@ -1,13 +1,21 @@
 /* ... (previous styles) */
-button{
-
+Title{
+  display: block;
 }
+
+
+
+
 .hidden{
     display: none;
   }
 .existingInput{
     display:flex;
     
+
+}
+.bottom{
+  margin-bottom:10px;
 
 }
   

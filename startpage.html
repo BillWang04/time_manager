@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang = en>
+    <head>
+        <link rel="stylesheet" href="styles.css" />
+        
+        <title>monkey_tabs</title>
+    </head>
+
+    <body>
+        <div class = "Title">
+            <h2>Monkey Tabs</h2>
+        </div>
+        <div class="popup-container">
+            
+            <div id="createGroupContainer" class="hidden">
+              <input type="text" id="newGroupName" placeholder="New Group Name">
+            </div>
+            
+            <div id="existingGroups" class="hidden">
+              <!-- Existing groups will be displayed here as buttons -->
+            </div>
+        </div>
+        <div class = "buttons">
+            <button id="createButton">Create Group</button>
+            <button id="addButton">Add to Group</button>
+        </div>
+        <div>
+            <p>
+                <a href="https://www.google.com/" target="_blank">Help</a>
+            </p>
+        </div>
+        <script src="popup.js"></script>
+    </body>
+</html>

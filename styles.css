@@ -1,0 +1,17 @@
+/* ... (previous styles) */
+button{
+
+}
+.hidden{
+    display: none;
+  }
+.existingInput{
+    display:flex;
+    
+
+}
+  
+  /* Style for existing group buttons */
+  #existingGroups button {
+    margin: 5px;
+  }

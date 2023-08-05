@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const existingGroupsContainer = document.getElementById("existingGroups");
     const newGroupNameInput = document.getElementById("newGroupName");
   
+    //popup appears everytime I open a tab
+
     // Function to show/hide elements
     function toggleElement(element, show) {
       if (show) {
@@ -16,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
     // Show/hide create group input on button click
     createButton.addEventListener("click", function () {
-      toggleElement(createGroupContainer, true);
+        toggleElement(createGroupContainer, true);
+         
     });
   
     newGroupNameInput.addEventListener("keypress", createNewButton)

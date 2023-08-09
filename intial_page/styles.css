@@ -10,6 +10,8 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
     padding: 20px;
+    height: 160;
+    width: 250;
 }
 
 h1 {

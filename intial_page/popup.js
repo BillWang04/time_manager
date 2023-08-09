@@ -18,9 +18,11 @@ dailyStatsElement.innerHTML = `<p>Today's Date: ${currentDate}</p>`;
 chrome.storage.local.get('timeData', (result) => {
     const timeData = result.timeData || {};
     const today = new Date().toLocaleDateString();
+
   
     const dailyStatsElement = document.getElementById('dailyStats');
     dailyStatsElement.innerHTML = `<h2>Daily Statistics</h2>`;
+    dailyStatsElements.innerHTML = `<p>${today}</p>`;
   
     if (timeData[today]) {
       for (const url in timeData[today]) {

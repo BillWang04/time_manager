@@ -1,15 +1,17 @@
 {
-  "manifest_version": 3,
-  "name": "Monkey Tabs",
-  "description": "Organizes your Chrome tabs" ,
-  "version": "1.0",
-  "action": {
-    "default_popup": "intial_page/startpage.html"
-  },
-  "host_permissions": [
-    "https://developer.chrome.com/*"
-  ],
-  "permissions": [
-    "tabGroups"
-  ]
+    "manifest_version": 3,
+    "name": "Time Tracker Extension",
+    "version": "1.0",
+    "description": "Tracks time spent on websites and compares to previous months",
+    "permissions": [
+        "webNavigation",
+        "activeTab",
+        "storage"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "intial_page/startpage.html"
+    }
 }

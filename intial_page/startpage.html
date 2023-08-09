@@ -1,43 +1,22 @@
-<!doctype html>
-<html lang = en>
-    <head>
-        <link rel="stylesheet" href="styles.css" />
-
-        <title>monkey_tabs</title>
-        <style>
-            html{
-                width: 250px;
-                height : 140px
-            }
-        </style>
-    </head>
-    <body>
-        <div id = "Title">
-            <h2>Monkey Tabs</h2>
-        </div>
-        <div class="popup-container">
-            
-            <div id="createGroupContainer" class="hidden">
-              <input type="text" id="newGroupName" placeholder="New Group Name">
-            </div>
-            
-            <div id="existingGroups" class="hidden">
-              <!-- Existing groups will be displayed here as buttons -->
-            </div>
-        </div>
-        <div class = "buttons">
-            <button id="createButton">Create Group</button>
-            <button id="addButton">Add to Group</button>
-        </div>
-        <div class = "bottom">
-            <p>
-                <a href = tab_list.html>View Groups</a>
-                <br> 
-                <a href="javascript:window.open('','_self').close();" class="video-close">Close this window</a>
-            </p>
-        </div>
-
-
-        <script src="popup.js"></script>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Tracker</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <h1>Time Tracker</h1>
+    <div id="dailyStats" class = "stats">
+        <!-- Display daily statistics here -->
+    </div>
+    <div id = "weeklyComparison" class = "stats">
+        <!-- Display weekly statistics here -->
+    </div>
+    <div id="monthlyComparison" class = "stats">
+        <!-- Display monthly comparison here -->
+    </div>
+    <script src="popup.js"></script>
+</body>
 </html>

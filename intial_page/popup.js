@@ -21,27 +21,25 @@ document.addEventListener('DOMContentLoaded', function () {
         const timeData = result.tabTimeData;
         const today = new Date().toLocaleDateString();
 
-
         const dailyStatsElement = document.getElementById('dailyStats');
         dailyStatsElement.innerHTML = `<h2>Daily Statistics</h2>`;
         // dailyStatsElements.innerHTML = `<p>${today}</p>`;
 
 
         if (timeData[today]) {
-            for (const url in timeData[today]) {
-                const timeSpent = timeData[today][url];
-                dailyStatsElement.innerHTML += `<p>${url}: ${timeSpent} ms</p>`;
+            for (const domain in timeData[today]) {
+                const timeSpent = timeData[today][domain].timeSpent;
+                dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent} ms</p>`;
             }
         } else {
             dailyStatsElement.innerHTML += `<p>No data available for today.</p>`;
         }
     });
 
-    
-    chrome.storage.local.get('mother', (result) => {
-        const mother = result.mother;
-        dailyStatsElement.innerHTML = `<p>${mother['cow']}</p>`;
-    })
+    // chrome.storage.local.get('mother', (result) => {
+    //     const mother = result.mother;
+    //     dailyStatsElement.innerHTML += `<p>google.com: ${mother['google.com']}</p>`;
+    // });
 
 
     // Retrieve and display monthly comparison

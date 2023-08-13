@@ -44,17 +44,6 @@ Follow these steps to get started with the Time Tracker Chrome Extension:
 
 4. Click on the Time Tracker icon at any time to view your activity summary.
 
-## Contributions
-
-Contributions to the Time Tracker Chrome Extension project are more than welcome! Whether you're an experienced developer or just starting your coding journey, your insights and suggestions can help enhance the project.
-
-1. Fork the repository and create a new branch for your contribution.
-
-2. Commit your changes with descriptive comments.
-
-3. Push your branch to your forked repository.
-
-4. Create a pull request, detailing the changes you've made and why they are valuable.
 
 ## License
 

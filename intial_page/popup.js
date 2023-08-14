@@ -26,15 +26,31 @@ document.addEventListener('DOMContentLoaded', function () {
         // dailyStatsElements.innerHTML = `<p>${today}</p>`;
 
 
-        if (timeData[today]) {
-            for (const domain in timeData[today]) {
-                const timeSpent = timeData[today][domain].timeSpent;
-                dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent} ms</p>`;
+        if (timeData) {
+            for (const tabID in timeData) {
+                const timeSpent = tabID.timeSpent;
+                dailyStatsElement.innerHTML += `<p>${tabID.domain}: ${timeSpent} ms</p>`;
             }
         } else {
             dailyStatsElement.innerHTML += `<p>No data available for today.</p>`;
         }
     });
+
+
+
+//  
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    const domainChangedDiv = document.getElementById('domain-changed');
+    if (message.action === 'domainChanged') {
+        domainChangedDiv.innerHTML = `TimerStarted: ${message.domain}`;
+    }
+    
+    if (message.action === 'timerEnd'){
+        domainChangedDiv.innerHTmL = `TimerStarted: ${message.domain}`;
+    }
+});
+
 
     // chrome.storage.local.get('mother', (result) => {
     //     const mother = result.mother;

@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     todayHeading.innerHTML = `<p>Today's Date: ${currentDate}</p>`;
 
     // Retrieve and display daily statistics
-    chrome.storage.local.get('tabTimeData', (result) => {
-        const timeData = result.tabTimeData;
+    chrome.storage.local.get('spentToday', (result) => {
+        const timeData = result.spentToday;
         const today = new Date().toLocaleDateString();
 
         const dailyStatsElement = document.getElementById('dailyStats');
@@ -27,9 +27,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         if (timeData) {
-            for (const tabID in timeData) {
-                const timeSpent = tabID.timeSpent;
-                dailyStatsElement.innerHTML += `<p>${tabID.domain}: ${timeSpent} ms</p>`;
+            for (let domain in timeData) {
+                const timeSpent = timeData[domain].totalTime;
+                dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent} ms</p>`;
             }
         } else {
             dailyStatsElement.innerHTML += `<p>No data available for today.</p>`;

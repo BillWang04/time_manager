@@ -2,7 +2,7 @@
 
 let tabTimeData = {}; // Object to hold tab time data
 let spentToday = {}; // hold total amount of time today for each domain
-
+const today = new Date().toLocaleDateString();
 // Listen for when a navigation is committed in a tab
 chrome.webNavigation.onCommitted.addListener(details => {
     const { tabId, url } = details;
@@ -24,14 +24,18 @@ chrome.webNavigation.onCommitted.addListener(details => {
         const timeSpent = currentTime - tabTimeData[tabId].startTime;
         tabTimeData[tabId].totalTime += timeSpent;
 
-        // Update tabTimeData for the new domain and add it too spentToday table
-        if(!spentToday[previousDomain]){
-            spentToday[previousDomain]= {
-                totalTime: 0
-            };
-        }
 
-        spentToday[previousDomain].totalTime += timeSpent;
+        if(!spentToday[today]){
+            spentToday[today] = {}
+        };
+        // Update tabTimeData for the new domain and add it too spentToday table
+        if(!spentToday[today][previousDomain]){
+            spentToday[today][previousDomain]= {
+                totalTime: 0
+            }
+        };
+
+        spentToday[today][previousDomain].totalTime += timeSpent;
         tabTimeData[tabId].currentDomain = domain;
         tabTimeData[tabId].startTime = currentTime;
         //set it to storage

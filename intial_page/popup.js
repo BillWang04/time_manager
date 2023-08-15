@@ -1,14 +1,3 @@
-// You can add your JavaScript logic here for tracking and displaying time data
-
-
-
-//each time you are a new website, a timer for that website starts. When you move
-//away from that website, you stop the timer and start a new timer or resume the timer
-//of a previous website
-
-//after the day ends, you take the top 5 websites times and add them in storage
-//and by the end of the week,
-
 // Get current date and display it in the dailyStats element
 document.addEventListener('DOMContentLoaded', function () {
     const dailyStatsElement = document.getElementById('dailyStats');
@@ -26,17 +15,15 @@ document.addEventListener('DOMContentLoaded', function () {
         // dailyStatsElements.innerHTML = `<p>${today}</p>`;
 
 
-        if (timeData) {
-            for (let domain in timeData) {
-                const timeSpent = timeData[domain].totalTime;
+        if (timeData[today]) {
+            for (let domain in timeData[today]) {
+                const timeSpent = timeData[today][domain].totalTime;
                 dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent} ms</p>`;
             }
         } else {
             dailyStatsElement.innerHTML += `<p>No data available for today.</p>`;
         }
     });
-
-
 
 //  
 

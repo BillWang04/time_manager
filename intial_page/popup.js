@@ -1,4 +1,18 @@
 // popup.js
+//miliseoncd converter
+
+function msToTime(ms) {
+    let seconds = (ms / 1000).toFixed(1);
+    let minutes = (ms / (1000 * 60)).toFixed(1);
+    let hours = (ms / (1000 * 60 * 60)).toFixed(1);
+    let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+    if (seconds < 60) return seconds + " Sec";
+    else if (minutes < 60) return minutes + " Min";
+    else if (hours < 24) return hours + " Hrs";
+    else return days + " Days"
+  }
+
+
 
 // Function to retrieve spentToday data from storage
 function getSpentTodayData() {
@@ -28,9 +42,9 @@ function getSpentTodayData() {
   
       if (spentTodayData[today]) {
         for (const domain in spentTodayData[today]) {
-            const timeSpent = spentTodayData[today][domain].totalTime;
             if(domain.startsWith("www")){
-                dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent} ms</p>`;
+                const timeSpent = msToTime(spentTodayData[today][domain].totalTime);
+                dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent}</p>`;
             }
 
         }
@@ -60,15 +74,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
-
-    // chrome.storage.local.get('mother', (result) => {
-    //     const mother = result.mother;
-    //     dailyStatsElement.innerHTML += `<p>google.com: ${mother['google.com']}</p>`;
-    // });
-
-
-    // Retrieve and display monthly comparison
-    // You'll need to implement the logic for comparing with previous months
 
 
 

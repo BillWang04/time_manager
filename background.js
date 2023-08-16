@@ -2,18 +2,29 @@ let tabTimeData = {}; // Object to hold tab time data
 let spentToday = {}; // hold total amount of time today for each domain
 const today = new Date().toLocaleDateString();
 
+//get the main domain from the url
+function getMainDomain(url){
+    const parsURL = new URL(url);
+    const parts = parsURL.hostname.split(".");
+    if (parts.length > 2){
+        return parts.slice(1).join('.');
+    }
+    return parsURL.hostname;
+}
+
+
 // Listen for when a navigation is committed in a tab
-chrome.webNavigation.onCommitted.addListener(details => {
+chrome.webNavigation.onCompleted.addListener(details => {
     const { tabId, url } = details;
-    const domain = new URL(url).hostname;
+    const domain = getMainDomain(url);
     if(domain === "" || domain === "new-tab-page"){
-        console.log("ignored:", domain);
+        console.log("ignored:", details);
         return;
     }
 
     // Check if tabTimeData already has data for this tabId
     if (!tabTimeData[tabId]) {
-        console.log("created new tabID: ", tabID )
+        console.log("created new tabID: ", details, "domain: ", domain )
         tabTimeData[tabId] = {
             currentDomain: domain,
             startTime: new Date().getTime(),
@@ -25,7 +36,7 @@ chrome.webNavigation.onCommitted.addListener(details => {
         const timeSpent = currentTime - tabTimeData[tabId].startTime;
 
         if (!spentToday[today]) {
-            console.log("created spentToday Key: ", today )
+            console.log("created spentToday Key: ", today, "---", details );
             spentToday[today] = {};
         }
 
@@ -34,10 +45,11 @@ chrome.webNavigation.onCommitted.addListener(details => {
             spentToday[today][previousDomain] = {
                 totalTime: 0
             };
-            console.log("created new domain key: ", previousDomain);
+            console.log("created new domain key in spentToday: ", previousDomain);
         }
         spentToday[today][previousDomain].totalTime += timeSpent;
-        console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent)
+        console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent);
+        console.log("Total Time ", previousDomain, ":",spentToday[today][previousDomain].totalTime  );
 
         // Update tabTimeData for the new domain
         tabTimeData[tabId].currentDomain = domain;

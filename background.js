@@ -14,7 +14,7 @@ function getMainDomain(url){
 
 
 // Listen for when a navigation is committed in a tab
-chrome.webNavigation.onCompleted.addListener(details => {
+chrome.webNavigation.onCommitted.addListener(details => {
     const { tabId, url } = details;
     const domain = getMainDomain(url);
     if(domain === "" || domain === "new-tab-page"){
@@ -48,12 +48,16 @@ chrome.webNavigation.onCompleted.addListener(details => {
             console.log("created new domain key in spentToday: ", previousDomain);
         }
         spentToday[today][previousDomain].totalTime += timeSpent;
+        chrome.storage.local.set({spentToday});
+
+
         console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent);
         console.log("Total Time ", previousDomain, ":",spentToday[today][previousDomain].totalTime  );
 
         // Update tabTimeData for the new domain
         tabTimeData[tabId].currentDomain = domain;
         tabTimeData[tabId].startTime = currentTime;
+
     }
 });
 
@@ -83,6 +87,9 @@ chrome.tabs.onRemoved.addListener(tabId => {
         // Update spentToday in storage
         chrome.storage.local.set({ spentToday });
 
+        console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent);
+        console.log("Total Time ", previousDomain, ":",spentToday[today][previousDomain].totalTime  );
+
         //log the tab removed
         console.log('Tab Removed:', tabId);
 
@@ -90,7 +97,24 @@ chrome.tabs.onRemoved.addListener(tabId => {
 });
 
 
+chrome.tabs.onActivated.addListener(activeInfo =>{
+    const tabId = activeInfo.tabId;
+    console.log("ACTIVATED TAB MOVEMENT");
 
+    // Get the URL of the activated tab using onUpdated event
+    chrome.tabs.onUpdated.addListener(function handleUpdated(tabId, changeInfo, tab) {
+        if (tabId === activeInfo.tabId && changeInfo.url) {
+            const newUrl = changeInfo.url;
+            // Do something with the new URL, such as updating your extension's UI
+            const domain = getMainDomain(newURL);
+            console.log(domain, "got when moving between tabs")
+            
+            // Remove the listener to avoid duplicate calls for the same tab
+            chrome.tabs.onUpdated.removeListener(handleUpdated);
+        }
+    });
+
+});
 
 
 

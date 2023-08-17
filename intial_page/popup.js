@@ -1,6 +1,7 @@
-// popup.js
-//miliseoncd converter
 
+
+
+//miliseoncd converter
 function msToTime(ms) {
     let seconds = (ms / 1000).toFixed(1);
     let minutes = (ms / (1000 * 60)).toFixed(1);
@@ -10,8 +11,8 @@ function msToTime(ms) {
     else if (minutes < 60) return minutes + " Min";
     else if (hours < 24) return hours + " Hrs";
     else return days + " Days"
-  }
 
+  }
 
 
 // Function to retrieve spentToday data from storage
@@ -42,11 +43,8 @@ function getSpentTodayData() {
   
       if (spentTodayData[today]) {
         for (const domain in spentTodayData[today]) {
-            if(domain.startsWith("www")){
-                const timeSpent = msToTime(spentTodayData[today][domain].totalTime);
-                dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent}</p>`;
-            }
-
+          const timeSpent = msToTime(spentTodayData[today][domain].totalTime);
+          dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent}</p>`;
         }
       } else {
         dailyStatsElement.innerHTML += `<p>No data available for today.</p>`;

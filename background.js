@@ -1,6 +1,7 @@
 let tabTimeData = {}; // Object to hold tab time data
 let spentToday = {}; // hold total amount of time today for each domain
 const today = new Date().toLocaleDateString();
+var currentTab = null;
 
 //get the main domain from the url
 function getMainDomain(url){
@@ -17,6 +18,8 @@ function getMainDomain(url){
 chrome.webNavigation.onCommitted.addListener(details => {
     const { tabId, url } = details;
     const domain = getMainDomain(url);
+    currentTab = tabId;
+    console.log("currentTab: ", tabId);
     if(domain === "" || domain === "new-tab-page"){
         console.log("ignored:", details);
         return;
@@ -100,19 +103,42 @@ chrome.tabs.onRemoved.addListener(tabId => {
 chrome.tabs.onActivated.addListener(activeInfo =>{
     const tabId = activeInfo.tabId;
     console.log("ACTIVATED TAB MOVEMENT");
+    try{
+        const previousDomain = tabTimeData[currentTab].currentDomain;
+        const currentTime = new Date().getTime();
+        const timeSpent = currentTime - tabTimeData[currentTab].startTime;
 
-    // Get the URL of the activated tab using onUpdated event
-    chrome.tabs.onUpdated.addListener(function handleUpdated(tabId, changeInfo, tab) {
-        if (tabId === activeInfo.tabId && changeInfo.url) {
-            const newUrl = changeInfo.url;
-            // Do something with the new URL, such as updating your extension's UI
-            const domain = getMainDomain(newURL);
-            console.log(domain, "got when moving between tabs")
-            
-            // Remove the listener to avoid duplicate calls for the same tab
-            chrome.tabs.onUpdated.removeListener(handleUpdated);
+        if (!spentToday[today]) {
+            spentToday[today] = {};
         }
-    });
+
+        // Update spentToday for the previous domain
+        if (!spentToday[today][previousDomain]) {
+            spentToday[today][previousDomain] = {
+                totalTime: 0
+            };
+        }
+
+        spentToday[today][previousDomain].totalTime += timeSpent;
+        console.log("added time to spentToday: ", previousDomain, "--- ", timeSpent);
+        console.log("Total Time ", previousDomain, ":", spentToday[today][previousDomain].totalTime);
+
+        //updates tabtoNewTabID
+        currentTab = tabId;
+        console.log("currentTab: ", tabId);
+
+
+
+    }
+    catch(error){
+        if(error instanceof TypeError){
+            console.log(error, "detected: Reset all Tabs to work effectively");
+        }
+        else{
+            console.log(error, "have fun");
+        }
+    }
+    // Get the URL of the activated tab using onUpdated event
 
 });
 

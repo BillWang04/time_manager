@@ -50,11 +50,11 @@ chrome.webNavigation.onCommitted.addListener(details => {
             };
             console.log("created new domain key in spentToday: ", previousDomain);
         }
-        spentToday[today][previousDomain].totalTime += timeSpent;
+        if(timeSpent > 1500){
+            spentToday[today][previousDomain].totalTime += timeSpent;
+            console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent);
+        }
         chrome.storage.local.set({spentToday});
-
-
-        console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent);
         console.log("Total Time ", previousDomain, ":",spentToday[today][previousDomain].totalTime  );
 
         // Update tabTimeData for the new domain
@@ -119,13 +119,21 @@ chrome.tabs.onActivated.addListener(activeInfo =>{
             };
         }
 
-        spentToday[today][previousDomain].totalTime += timeSpent;
-        console.log("added time to spentToday: ", previousDomain, "--- ", timeSpent);
-        console.log("Total Time ", previousDomain, ":", spentToday[today][previousDomain].totalTime);
+        if (timeSpent > 1500) {
+            spentToday[today][previousDomain].totalTime += timeSpent;
+            console.log("added time to spentToday: ", previousDomain, "--- ", timeSpent);
+            console.log("Total Time ", previousDomain, ":", spentToday[today][previousDomain].totalTime);
+        }
+        else{
+            console.log("skip time cause too short");
+        }
 
         //updates tabtoNewTabID
-        currentTab = tabId;
         console.log("currentTab: ", tabId);
+        // Update tabTimeData for the new domain
+        
+        currentTab = tabId;
+        tabTimeData[currentTab].startTime = currentTime;
 
 
 

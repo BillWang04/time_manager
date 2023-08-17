@@ -12,62 +12,68 @@ function msToTime(ms) {
     else if (hours < 24) return hours + " Hrs";
     else return days + " Days"
 
-  }
+}
 
 
 // Function to retrieve spentToday data from storage
 function getSpentTodayData() {
     return new Promise((resolve, reject) => {
-      chrome.storage.local.get('spentToday', result => {
-        if (chrome.runtime.lastError) {
-          return reject(chrome.runtime.lastError);
-        }
-        resolve(result.spentToday || {});
-      });
+        chrome.storage.local.get('spentToday', result => {
+            if (chrome.runtime.lastError) {
+                return reject(chrome.runtime.lastError);
+            }
+            resolve(result.spentToday || {});
+        });
     });
-  }
-  
-  // Function to update the popup UI with the spentToday data
-  async function updatePopupUI() {
+}
+
+
+function sortTop5(object, key ){
+    object[key]
+}
+
+
+// Function to update the popup UI with the spentToday data
+async function updatePopupUI() {
     try {
-      const spentTodayData = await getSpentTodayData();
-  
-      // Get current date and display it in the dailyStats element
-      const dailyStatsElement = document.getElementById('dailyStats');
-      const todayHeading = document.getElementById('heading');
-      const currentDate = new Date().toLocaleDateString();
-      todayHeading.innerHTML = `<p>Today's Date: ${currentDate}</p>`;
-  
-      // Retrieve and display daily statistics
-      const today = new Date().toLocaleDateString();
-  
-      if (spentTodayData[today]) {
-        for (const domain in spentTodayData[today]) {
-          const timeSpent = msToTime(spentTodayData[today][domain].totalTime);
-          dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent}</p>`;
+        const spentTodayData = await getSpentTodayData();
+
+        // Get current date and display it in the dailyStats element
+        const dailyStatsElement = document.getElementById('dailyStats');
+        const todayHeading = document.getElementById('heading');
+        const currentDate = new Date().toLocaleDateString();
+        todayHeading.innerHTML = `<p>Today's Date: ${currentDate}</p>`;
+
+        // Retrieve and display daily statistics
+        const today = new Date().toLocaleDateString();
+
+        if (spentTodayData[today]) {
+            for (const domain in spentTodayData[today]) {
+                const timeSpent = msToTime(spentTodayData[today][domain].totalTime);
+                dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent}</p>`;
+            }
+        } else {
+            dailyStatsElement.innerHTML += `<p>No data available for today.</p>`;
         }
-      } else {
-        dailyStatsElement.innerHTML += `<p>No data available for today.</p>`;
-      }
-  
-      // Example: Display a simple message in the monthlyComparison element
-      const monthlyComparisonElement = document.getElementById('monthlyComparison');
-      monthlyComparisonElement.innerHTML = '<p>Monthly comparison data will be displayed here.</p>';
+
+        // Example: Display a simple message in the monthlyComparison element
+        const monthlyComparisonElement = document.getElementById('monthlyComparison');
+        monthlyComparisonElement.innerHTML = '<p>Monthly comparison data will be displayed here.</p>';
     } catch (error) {
-      console.error('Error retrieving spentToday data:', error);
+        console.error('Error retrieving spentToday data:', error);
     }
-  }
-  
-  // Call the updatePopupUI function to display the data when the popup is opened
-  document.addEventListener('DOMContentLoaded', updatePopupUI);
-  
+}
+
+// Call the updatePopupUI function to display the data when the popup is opened
+document.addEventListener('DOMContentLoaded', updatePopupUI);
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const domainChangedDiv = document.getElementById('domain-changed');
     if (message.action === 'domainChanged') {
         domainChangedDiv.innerHTML = `TimerStarted: ${message.domain}`;
     }
-    
-    if (message.action === 'timerEnd'){
+
+    if (message.action === 'timerEnd') {
         domainChangedDiv.innerHTmL = `TimerStarted: ${message.domain}`;
     }
 });
@@ -75,7 +81,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 
 
-    // Example: Display a simple message in the monthlyComparison element
-    const monthlyComparisonElement = document.getElementById('monthlyComparison');
-    monthlyComparisonElement.innerHTML = '<p>Monthly comparison data will be displayed here.</p>';
+// Example: Display a simple message in the monthlyComparison element
+const monthlyComparisonElement = document.getElementById('monthlyComparison');
+monthlyComparisonElement.innerHTML = '<p>Monthly comparison data will be displayed here.</p>';
 

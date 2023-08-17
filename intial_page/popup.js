@@ -28,9 +28,9 @@ function getSpentTodayData() {
 }
 
 
-function sortTop5(object, key ){
-    object[key]
-}
+//sorting algorithem for top 5, just use insertion
+
+//sorting algo for checking all domains
 
 
 // Function to update the popup UI with the spentToday data

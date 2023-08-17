@@ -34,6 +34,8 @@ Follow these steps to get started with the Time Tracker Chrome Extension:
 
 5. The extension icon should now appear in your browser's toolbar.
 
+6. Make sure to start a new browser, old tabs will not be tracked. 
+
 ## Usage
 
 1. Click on the Time Tracker icon in your browser's toolbar.

@@ -28,8 +28,31 @@ function getSpentTodayData() {
 }
 
 
-//sorting algorithem for top 5, just use insertion
+//sorting algorithem for top 5, just using selection sort
+function sortingFive(table, key) {
+    let greatestTimes = {};
+    let copyTable = table;
+    for (let i = 0; i < 5; i++) {
+        if (greatestTimes) {
+            let k = null;
+            let value = 0;
+            for (const j in copyTable[key]) {
+                if (value < copyTable[key][j].totalTime) {
+                    value = copyTable[key][j].totalTime;
+                    k = j;
+                }
+            }
+            greatestTimes[k] = value;
+            delete copyTable[key][k];
+        }
+        else{
+            break;
+        }
 
+    }
+
+    return greatestTimes;
+}
 //sorting algo for checking all domains
 
 
@@ -46,7 +69,15 @@ async function updatePopupUI() {
 
         // Retrieve and display daily statistics
         const today = new Date().toLocaleDateString();
+        
+        // const top5Data = sortingFive(spentTodayData);
 
+        // if (top5Data){
+        //     for(const domain in top5Data){
+        //         dailyStatsElement.innerHTML += `<p>${domain}: ${top5Data[domain]} `
+        //     }
+        // }
+        
         if (spentTodayData[today]) {
             for (const domain in spentTodayData[today]) {
                 const timeSpent = msToTime(spentTodayData[today][domain].totalTime);

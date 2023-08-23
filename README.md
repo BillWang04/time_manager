@@ -49,7 +49,7 @@ Follow these steps to get started with the Time Tracker Chrome Extension:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt) file for details.
 
 ## Acknowledgments
 
@@ -59,6 +59,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For any questions or inquiries about this project, please contact [18billwang@gmail.com](mailto:18billwang@gmail.com).
+For any questions or inquiries about this project, please contact [blw002@ucsd.edu](mailto:blw002@ucsd.edu).
 
 Happy coding and exploring the world of Full Stack Development through the Time Tracker Chrome Extension! 🚀🕒

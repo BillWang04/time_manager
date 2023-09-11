@@ -25,31 +25,38 @@ function getSpentTodayData() {
 }
 
 
-//sorting algorithem for top 5, just using selection sort
+//sorting algorithem for top 5, just using insertion sort
 function sortingFive(table, key) {
-    let greatestTimes = {};
-    let copyTable = table;
-    for (let i = 0; i < 5; i++) {
-        if (greatestTimes) {
-            let k = null;
-            let value = 0;
-            for (const j in copyTable[key]) {
-                if (value < copyTable[key][j].totalTime) {
-                    value = copyTable[key][j].totalTime;
-                    k = j;
-                }
-            }
-            greatestTimes[k] = value;
-            delete copyTable[key][k];
-        }
-        else{
-            break;
+    let greatestTimes = [];
+
+    // Convert the object to an array of [website, totalTime] pairs
+    const websiteTimes = Object.entries(table[key]);
+
+    for (let i = 0; i < Math.min(5, websiteTimes.length); i++) {
+        const currentWebsite = websiteTimes[i];
+        let j = i - 1;
+
+        // Move elements greater than currentWebsite totalTime to the right
+        while (j >= 0 && websiteTimes[j][1].totalTime < currentWebsite[1].totalTime) {
+            websiteTimes[j + 1] = websiteTimes[j];
+            j--;
         }
 
+        websiteTimes[j + 1] = currentWebsite; // Insert currentWebsite into the correct position
+    }
+
+    // Extract the top 5 greatest times
+    for (let i = 0; i < Math.min(5, websiteTimes.length); i++) {
+        greatestTimes.push({
+            website: websiteTimes[i][0],
+            totalTime: websiteTimes[i][1].totalTime,
+        });
     }
 
     return greatestTimes;
 }
+
+
 //sorting algo for checking all domains
 
 
@@ -78,6 +85,9 @@ async function updatePopupUI() {
         if (spentTodayData[today]) {
             for (const domain in spentTodayData[today]) {
                 const timeSpent = msToTime(spentTodayData[today][domain].totalTime);
+                if(timeSpent == "0.0 Sec"){
+                    continue;
+                }
                 dailyStatsElement.innerHTML += `<p>${domain}: ${timeSpent}</p>`;
             }
         } else {
@@ -91,6 +101,7 @@ async function updatePopupUI() {
         console.error('Error retrieving spentToday data:', error);
     }
 }
+
 
 // Call the updatePopupUI function to display the data when the popup is opened
 document.addEventListener('DOMContentLoaded', updatePopupUI);

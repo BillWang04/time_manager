@@ -3,6 +3,26 @@ let spentToday = {}; // hold total amount of time today for each domain
 const today = new Date().toLocaleDateString();
 var currentTab = null;
 
+
+function sortSpentTodayByTime(spentToday) {
+    // Convert the spentToday object into an array of [domain, data] pairs
+    const entries = Object.entries(spentToday);
+  
+    // Sort the array by totalTime in descending order
+    entries.sort((a, b) => b[1].totalTime - a[1].totalTime);
+  
+    // Convert the sorted array back into an object
+    const sortedSpentToday = {};
+    for (const [domain, data] of entries) {
+      sortedSpentToday[domain] = data;
+    }
+  
+    return sortedSpentToday;
+  }
+  
+  
+
+
 //get the main domain from the url
 function getMainDomain(url){
     const parsURL = new URL(url);
@@ -52,6 +72,7 @@ chrome.webNavigation.onCommitted.addListener(details => {
         }
         if(timeSpent > 1500){
             spentToday[today][previousDomain].totalTime += timeSpent;
+            const sortedSpentToday = sortSpentTodayByTime(spentToday);
             console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent);
         }
         chrome.storage.local.set({spentToday});

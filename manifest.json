@@ -12,6 +12,6 @@
         "service_worker": "background.js"
     },
     "action": {
-        "default_popup": "popup/startpage.html"
+        "default_popup": "startpage.html"
     }
 }

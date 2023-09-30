@@ -63,7 +63,10 @@ function sortingFive(table, key) {
 //sorting algo for checking all domains
 
 
+
+
 // Function to update the popup UI with the spentToday data
+
 async function updatePopupUI() {
     try {
         const spentTodayData = await getSpentTodayData();
@@ -76,15 +79,7 @@ async function updatePopupUI() {
 
         // Retrieve and display daily statistics
         const today = new Date().toLocaleDateString();
-        
-        // const top5Data = sortingFive(spentTodayData);
 
-        // if (top5Data){
-        //     for(const domain in top5Data){
-        //         dailyStatsElement.innerHTML += `<p>${domain}: ${top5Data[domain]} `
-        //     }
-        // }
-        
         if (spentTodayData[today]) {
             for (const domain in spentTodayData[today]) {
                 const timeSpent = msToTime(spentTodayData[today][domain].totalTime);
@@ -106,6 +101,8 @@ async function updatePopupUI() {
 }
 
 
+function main(){ 
+
 // Call the updatePopupUI function to display the data when the popup is opened
 document.addEventListener('DOMContentLoaded', updatePopupUI);
 
@@ -121,9 +118,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 
-
-
 // Example: Display a simple message in the monthlyComparison element
 const monthlyComparisonElement = document.getElementById('monthlyComparison');
 monthlyComparisonElement.innerHTML = '<p>Monthly comparison data will be displayed here.</p>';
+ }
 
+main();

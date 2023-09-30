@@ -6,9 +6,9 @@ The Time Tracker Chrome Extension is a project designed to help users monitor an
 
 - **Website Time Tracking:** The extension enables users to keep track of the time spent on designated websites, offering a clear overview of their online activities.
 
-- **Customizable Monitoring:** Users can define which websites they want to monitor, allowing for a personalized experience tailored to individual needs.
+- **Customizable Monitoring (in progress):** Users can define which websites they want to monitor, allowing for a personalized experience tailored to individual needs.
 
-- **Time Management Insights:** By offering insights into time spent on different websites, users gain valuable data to assess their online habits and make informed decisions.
+- **Time Management Insights (in progress):** By offering insights into time spent on different websites, users gain valuable data to assess their online habits and make informed decisions.
 
 ## Learning Objectives
 
@@ -46,11 +46,6 @@ Follow these steps to get started with the Time Tracker Chrome Extension:
 
 4. Click on the Time Tracker icon at any time to view your activity summary.
 
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt) file for details.
-
 ## Acknowledgments
 
 - This project was inspired by the need for efficient time management and productivity enhancement while browsing the web.
@@ -61,4 +56,3 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 For any questions or inquiries about this project, please contact [blw002@ucsd.edu](mailto:blw002@ucsd.edu).
 
-Happy coding and exploring the world of Full Stack Development through the Time Tracker Chrome Extension! 🚀🕒

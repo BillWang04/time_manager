@@ -1,6 +1,6 @@
 # Time Tracker Chrome Extension
 
-The Time Tracker Chrome Extension is a project designed to help users monitor and manage their online activities by tracking the amount of time spent on specific websites, such as YouTube or Netflix. This project serves as a valuable learning experience for those interested in Full Stack Development, as it involves working with HTML, CSS, JavaScript, and delving into the functionalities of Chrome Extension APIs.
+The Time Tracker Chrome Extension is a project designed to help users monitor and manage their online activities by tracking the amount of time spent on specific websites, such as YouTube or Netflix. This project serves as a valuable learning experience for me in learning web development, as it involves working with HTML, CSS, JavaScript, and delving into the functionalities of Chrome Extension APIs.
 
 ## Features
 

@@ -116,6 +116,7 @@ chrome.tabs.onRemoved.addListener(tabId => {
 
         //log the tab removed
         console.log('Tab Removed:', tabId);
+        console.log(spentToday)
 
     }
 });

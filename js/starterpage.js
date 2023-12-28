@@ -28,49 +28,32 @@ function getSpentTodayData() {
 }
 
 
-//sorting algorithem for top 5, just using insertion sort
-function sortingFive(table, key) {
-    let greatestTimes = [];
-
-    // Convert the object to an array of [website, totalTime] pairs
-    const websiteTimes = Object.entries(table[key]);
-
-    for (let i = 0; i < Math.min(5, websiteTimes.length); i++) {
-        const currentWebsite = websiteTimes[i];
-        let j = i - 1;
-
-        // Move elements greater than currentWebsite totalTime to the right
-        while (j >= 0 && websiteTimes[j][1].totalTime < currentWebsite[1].totalTime) {
-            websiteTimes[j + 1] = websiteTimes[j];
-            j--;
-        }
-
-        websiteTimes[j + 1] = currentWebsite; // Insert currentWebsite into the correct position
-    }
-
-    // Extract the top 5 greatest times
-    for (let i = 0; i < Math.min(5, websiteTimes.length); i++) {
-        greatestTimes.push({
-            website: websiteTimes[i][0],
-            totalTime: websiteTimes[i][1].totalTime,
-        });
-    }
-
-    return greatestTimes;
-}
-
 
 //sorting algo for checking all domains
 
+// Function to sort spentToday by total time spent on each domain
+function sortSpentTodayByTime(spentToday) {
+    const today = new Date().toLocaleDateString();
+    if (!spentToday[today]) return {};
 
+    var entries = Object.entries(spentToday[today]);
+
+    // Sum the time spent on each domain and sort based on the total time
+    entries.sort((a, b) => {
+        return b[1].totalTime - a[1].totalTime// Sort in descending order of total time
+    });
+
+    return entries;
+}
 
 
 // Function to update the popup UI with the spentToday data
 
 async function updatePopupUI() {
     try {
-        const spentTodayData = await getSpentTodayData();
-
+        const spentTodayData = await getSpentTodayData() //await getSpentTodayData(); // grabs time values of specific day in an object
+        
+        const sortedSpentToday = sortSpentTodayByTime(spentTodayData); //put through sort
         // Get current date and display it in the dailyStats element
         const dailyStatsElement = document.getElementById('dailyStats');
         const todayHeading = document.getElementById('heading');
@@ -79,10 +62,10 @@ async function updatePopupUI() {
 
         // Retrieve and display daily statistics
         const today = new Date().toLocaleDateString();
-
-        if (spentTodayData[today]) {
-            for (const domain in spentTodayData[today]) {
-                const timeSpent = msToTime(spentTodayData[today][domain].totalTime);
+        
+        if (sortedSpentToday) {
+            for (const [domain, timeObject] of sortedSpentToday) {
+                const timeSpent = msToTime(timeObject.totalTime);// changes into readable time
                 if(timeSpent == "0.0 Sec"){
                     continue;
                 }

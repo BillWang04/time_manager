@@ -1,4 +1,5 @@
 // import { sort } from 'fast-sort';
+let isExpanded = false;
 
 
 //miliseoncd converter
@@ -55,7 +56,7 @@ async function updatePopupUI() {
         
         const sortedSpentToday = sortSpentTodayByTime(spentTodayData); //put through sort
         // Get current date and display it in the dailyStats element
-        const dailyStatsElement = document.getElementById('dailyStats');
+        const dailyStatsElement = document.getElementById('domainList');
         const todayHeading = document.getElementById('heading');
         const currentDate = new Date().toLocaleDateString();
         todayHeading.innerHTML = `<p>Today's Date: ${currentDate}</p>`;
@@ -75,7 +76,12 @@ async function updatePopupUI() {
             dailyStatsElement.innerHTML += `<p>No data available for today.</p>`;
         }
 
+        
+        //adding toggle button
+        const toggleButton = document.getElementById('toggleButton');
+        domainList.parentNode.insertBefore(toggleButton, domainList.nextSibling);
         // Example: Display a simple message in the monthlyComparison element
+
         const monthlyComparisonElement = document.getElementById('monthlyComparison');
         monthlyComparisonElement.innerHTML = '<p>Monthly comparison data will be displayed here.</p>';
     } catch (error) {
@@ -84,26 +90,47 @@ async function updatePopupUI() {
 }
 
 
+
+function toggleList() {
+    const domainList = document.getElementById('domainList');
+    const toggleButton = document.getElementById('toggleButton');
+
+    if (!isExpanded) {
+        // Expand the list (show all domains)
+        domainList.style.maxHeight = 'none'; // Remove the maximum height to show all
+        toggleButton.textContent = 'Show Less';
+        isExpanded = true;
+    } else {
+        // Collapse the list (show only some domains)
+        domainList.style.maxHeight = '200px'; // Set a maximum height to show limited domains
+        toggleButton.textContent = 'Show More';
+        isExpanded = false;
+    }
+}
+
+
 function main(){ 
 
-// Call the updatePopupUI function to display the data when the popup is opened
-document.addEventListener('DOMContentLoaded', updatePopupUI);
+    // Call the updatePopupUI function to display the data when the popup is opened
+    document.addEventListener('DOMContentLoaded', () => {
+        updatePopupUI();
+    });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    const domainChangedDiv = document.getElementById('domain-changed');
-    if (message.action === 'domainChanged') {
-        domainChangedDiv.innerHTML = `TimerStarted: ${message.domain}`;
-    }
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        const domainChangedDiv = document.getElementById('domain-changed');
+        if (message.action === 'domainChanged') {
+            domainChangedDiv.innerHTML = `TimerStarted: ${message.domain}`;
+        }
 
-    if (message.action === 'timerEnd') {
-        domainChangedDiv.innerHTmL = `TimerStarted: ${message.domain}`;
-    }
-});
+        if (message.action === 'timerEnd') {
+            domainChangedDiv.innerHTmL = `TimerStarted: ${message.domain}`;
+        }
+    });
 
 
-// Example: Display a simple message in the monthlyComparison element
-const monthlyComparisonElement = document.getElementById('monthlyComparison');
-monthlyComparisonElement.innerHTML = '<p>Monthly comparison data will be displayed here.</p>';
- }
+    // Example: Display a simple message in the monthlyComparison element
+    const monthlyComparisonElement = document.getElementById('monthlyComparison');
+    monthlyComparisonElement.innerHTML = '<p>Monthly comparison data will be displayed here.</p>';
+}
 
 main();

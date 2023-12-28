@@ -1,6 +1,6 @@
 let tabTimeData = {}; // Object to hold tab time data
 let spentToday = {}; // hold total amount of time today for each domain
-const today = new Date().toLocaleDateString();
+var today = new Date().toLocaleDateString();
 var currentTab = null;
 
 
@@ -36,6 +36,12 @@ function getMainDomain(url){
 
 // Listen for when a navigation is committed in a tab
 chrome.webNavigation.onCommitted.addListener(details => {
+    //check today
+    checkDate = new Date().toLocaleDateString();
+    if (checkDate != today){
+        today = checkDate
+    }
+
     const { tabId, url } = details;
     const domain = getMainDomain(url);
     currentTab = tabId;
@@ -44,7 +50,7 @@ chrome.webNavigation.onCommitted.addListener(details => {
         console.log("ignored:", details);
         return;
     }
-
+    
     // Check if tabTimeData already has data for this tabId
     if (!tabTimeData[tabId]) {
         console.log("created new tabID: ", details, "domain: ", domain )
@@ -57,7 +63,6 @@ chrome.webNavigation.onCommitted.addListener(details => {
         const currentTime = new Date().getTime();
         const previousDomain = tabTimeData[tabId].currentDomain;
         const timeSpent = currentTime - tabTimeData[tabId].startTime;
-
         if (!spentToday[today]) {
             console.log("created spentToday Key: ", today, "---", details );
             spentToday[today] = {};
@@ -73,7 +78,7 @@ chrome.webNavigation.onCommitted.addListener(details => {
         if(timeSpent > 1500){
             spentToday[today][previousDomain].totalTime += timeSpent;
             const sortedSpentToday = sortSpentTodayByTime(spentToday);
-            console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent);
+            console.log("added time to spentToday on ", today ,": " , previousDomain, "--- ", timeSpent, '---ONCOMMITTED');
         }
         chrome.storage.local.set({spentToday});
         console.log("Total Time ", previousDomain, ":",spentToday[today][previousDomain].totalTime  );
@@ -88,6 +93,11 @@ chrome.webNavigation.onCommitted.addListener(details => {
 // Listen for tab removal to clean up tabTimeData
 chrome.tabs.onRemoved.addListener(tabId => {
     // Check if tabId exists in tabTimeData before deleting
+    //check today
+    checkDate = new Date().toLocaleDateString();
+    if (checkDate != today){
+        today = checkDate
+    }
     if (tabTimeData[tabId]) {
         const currentTime = new Date().getTime();
         const previousDomain = tabTimeData[tabId].currentDomain;
@@ -111,18 +121,24 @@ chrome.tabs.onRemoved.addListener(tabId => {
         // Update spentToday in storage
         chrome.storage.local.set({ spentToday });
 
-        console.log("added time to spentToday: " , previousDomain, "--- ", timeSpent);
+        console.log("added time to spentToday on ", today ,": " , previousDomain, "--- ", timeSpent, "--- ONREMOVED");
         console.log("Total Time ", previousDomain, ":",spentToday[today][previousDomain].totalTime  );
 
         //log the tab removed
         console.log('Tab Removed:', tabId);
         console.log(spentToday)
+        console.log(tabTimeData)
 
     }
 });
 
 
 chrome.tabs.onActivated.addListener(activeInfo =>{
+    //check today
+    checkDate = new Date().toLocaleDateString();
+    if (checkDate != today){
+        today = checkDate
+    }
     const tabId = activeInfo.tabId;
     console.log("ACTIVATED TAB MOVEMENT");
     try{
@@ -143,7 +159,7 @@ chrome.tabs.onActivated.addListener(activeInfo =>{
 
         if (timeSpent > 1500) {
             spentToday[today][previousDomain].totalTime += timeSpent;
-            console.log("added time to spentToday: ", previousDomain, "--- ", timeSpent);
+            console.log("added time to spentToday on ", today ,": " , previousDomain, "--- ", timeSpent, "--- ONACTIVATION");
             console.log("Total Time ", previousDomain, ":", spentToday[today][previousDomain].totalTime);
         }
         else{
